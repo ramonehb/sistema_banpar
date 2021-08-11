@@ -11,13 +11,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UsuarioDao extends Usuario {
+    private Connection conn;
+    private ResultSet rs;
+    private PreparedStatement query;
+    private PreparedStatement use;
+    private String us = "USE banpar";
+
+
     //ATUALIZAR USUÁRIO
     public void atualizar(String usuario, String senha, String email, String data, int nivel_acesso, int id) {
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
+            conn = new ConnectionFactory().getConnection();
+            use = conn.prepareStatement(us);
             use.executeQuery();
-            PreparedStatement query = conn.prepareStatement("UPDATE usuario SET usuario = ?, senha = ?, email = ?," +
+            query = conn.prepareStatement("UPDATE usuario SET usuario = ?, senha = ?, email = ?," +
                     "data_nascimento = ?, id_nivel_acesso = ? WHERE id_usuario = ?");
             query.setString(1, usuario);
             query.setString(2, senha);
