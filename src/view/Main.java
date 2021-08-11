@@ -1,16 +1,11 @@
 package view;
 
-import dao.CedenteDao;
 import dao.UsuarioDao;
-import model.Cedente;
 import model.Usuario;
-
-import java.sql.SQLOutput;
 import java.util.*;
 
 public class Main {
     /*
-     * Adicionar update no usuário
      * Fazer telas Cedente e Operação
      */
     public static void main(String[] args) {
@@ -164,9 +159,5 @@ public class Main {
         } else {
             System.out.println("Usuário ou Senha invalido");
         }
-    }
-
-    public static void msg(String msg) {
-        System.out.println(msg);
     }
 }
