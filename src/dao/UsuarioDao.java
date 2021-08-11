@@ -2,7 +2,6 @@ package dao;
 
 import model.Usuario;
 
-import javax.swing.plaf.metal.MetalRootPaneUI;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,12 +14,13 @@ public class UsuarioDao extends Usuario {
     private ResultSet res;
     private PreparedStatement query;
     private PreparedStatement use;
-    Conexao c = new Conexao();
+    private Conexao c;
 
     //ATUALIZAR USUÁRIO
     public void atualizar(String usuario, String senha, String email, String data, int nivel_acesso, int id) {
         try {
-            conn = c.abreConexao();
+            conn = Conexao.abreConexao();
+            assert conn != null;
             use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             query = conn.prepareStatement("UPDATE usuario SET usuario = ?, senha = ?, email = ?," +
@@ -38,8 +38,8 @@ public class UsuarioDao extends Usuario {
             } else {
                 System.out.println("\n---------------------------------USUÁRIO NÃO ATUALIZADO-------------------------------------\n");
             }
-            use.close();;
-            query.close();;
+            use.close();
+            query.close();
             conn.close();;
         } catch (Exception erro) {
             throw new RuntimeException(erro);
@@ -50,9 +50,8 @@ public class UsuarioDao extends Usuario {
     public boolean verificarAcesso(String usuario, String senha) {
         boolean autenticacao = false;
         try {
-
-
-            conn = c.abreConexao();
+            conn = Conexao.abreConexao();
+            assert conn != null;
             use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             String selectAll = "SELECT * FROM usuario WHERE usuario='" + usuario + "' AND senha='" + senha + "'";
@@ -75,7 +74,8 @@ public class UsuarioDao extends Usuario {
     public void cadastrar(String usuario, String senha, String email, String data, int nivel_acesso) {
 
         try {
-            conn = c.abreConexao();
+            conn = Conexao.abreConexao();
+            assert conn != null;
             PreparedStatement use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             String insert = "INSERT INTO usuario (usuario,senha,email,data_nascimento,id_nivel_acesso) VALUES (?,?,?,?,?)";
@@ -104,7 +104,8 @@ public class UsuarioDao extends Usuario {
     public List<Usuario> selectNome(String nome) {
         List<Usuario> usuarios = new ArrayList<>();
         try {
-            conn = c.abreConexao();
+            conn = Conexao.abreConexao();
+            assert conn != null;
             use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             String like = "SELECT * FROM usuario WHERE usuario LIKE '%" + nome + "%'";
@@ -145,7 +146,8 @@ public class UsuarioDao extends Usuario {
         List<Usuario> usuarios = new ArrayList<Usuario>();
 
         try {
-            conn = c.abreConexao();
+            conn = Conexao.abreConexao();
+            assert conn != null;
             use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             query = conn.prepareStatement("SELECT * FROM usuario");
@@ -173,7 +175,8 @@ public class UsuarioDao extends Usuario {
     //SELECT POR ID
     public Usuario select(int id_usuario) {
         try {
-            conn = c.abreConexao();
+            conn = Conexao.abreConexao();
+            assert conn != null;
             use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             query = conn.prepareStatement("SELECT * FROM usuario WHERE id_usuario = ?");
@@ -200,7 +203,8 @@ public class UsuarioDao extends Usuario {
     //DELETE POR ID
     public void delete(int id) {
         try {
-            conn = c.abreConexao();
+            conn = Conexao.abreConexao();
+            assert conn != null;
             use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             query = conn.prepareStatement("DELETE FROM usuario WHERE id_usuario = ?");

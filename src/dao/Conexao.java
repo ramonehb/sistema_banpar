@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class Conexao {
-    private static String connectionString = "jdbc:mysql://localhost:3306";
+    private static String connectionString = "jdbc:mysql://localhost:3306/banpar";
     private static String user = "root";
     private static String pass = "1234";
 
