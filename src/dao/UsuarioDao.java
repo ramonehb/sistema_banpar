@@ -40,7 +40,7 @@ public class UsuarioDao extends Usuario {
             }
             use.close();
             query.close();
-            conn.close();;
+            conn.close();
         } catch (Exception erro) {
             throw new RuntimeException(erro);
         }
