@@ -12,17 +12,15 @@ import java.util.List;
 
 public class UsuarioDao extends Usuario {
     private Connection conn;
-    private ResultSet rs;
+    private ResultSet res;
     private PreparedStatement query;
     private PreparedStatement use;
-    private String us = "USE banpar";
-
 
     //ATUALIZAR USUÁRIO
     public void atualizar(String usuario, String senha, String email, String data, int nivel_acesso, int id) {
         try {
             conn = new ConnectionFactory().getConnection();
-            use = conn.prepareStatement(us);
+            use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             query = conn.prepareStatement("UPDATE usuario SET usuario = ?, senha = ?, email = ?," +
                     "data_nascimento = ?, id_nivel_acesso = ? WHERE id_usuario = ?");
@@ -52,14 +50,14 @@ public class UsuarioDao extends Usuario {
         boolean autenticacao = false;
         try {
 
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
+            conn = new ConnectionFactory().getConnection();
+            use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             String selectAll = "SELECT * FROM usuario WHERE usuario='" + usuario + "' AND senha='" + senha + "'";
-            PreparedStatement query = conn.prepareStatement(selectAll);
-            ResultSet resultado = query.executeQuery();
+            query = conn.prepareStatement(selectAll);
+             res = query.executeQuery();
 
-            if (resultado.next()) {
+            if (res.next()) {
                 autenticacao = true;
             }
             use.close();
@@ -104,12 +102,12 @@ public class UsuarioDao extends Usuario {
     public List<Usuario> selectNome(String nome) {
         List<Usuario> usuarios = new ArrayList<>();
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
+            conn = new ConnectionFactory().getConnection();
+            use = conn.prepareStatement("USE banpar");
             use.executeQuery();
             String like = "SELECT * FROM usuario WHERE usuario LIKE '%" + nome + "%'";
-            PreparedStatement query = conn.prepareStatement(like);
-            ResultSet res = query.executeQuery();
+            query = conn.prepareStatement(like);
+            res = query.executeQuery();
             int contador = 0;
             while (res.next()) {
                 contador++;
@@ -129,7 +127,6 @@ public class UsuarioDao extends Usuario {
             } else {
                 System.out.println("Usuário não Localizado");
             }
-
             use.close();
             query.close();
             conn.close();
@@ -146,11 +143,11 @@ public class UsuarioDao extends Usuario {
         List<Usuario> usuarios = new ArrayList<Usuario>();
 
         try {
-            Connection con = new ConnectionFactory().getConnection();
-            PreparedStatement use = con.prepareStatement("USE banpar");
+            conn = new ConnectionFactory().getConnection();
+            use = conn.prepareStatement("USE banpar");
             use.executeQuery();
-            PreparedStatement smt = con.prepareStatement("SELECT * FROM usuario");
-            ResultSet res = smt.executeQuery();
+            query = conn.prepareStatement("SELECT * FROM usuario");
+            ResultSet res = query.executeQuery();
 
             while (res.next()) {
                 Usuario u = new Usuario();
@@ -163,8 +160,8 @@ public class UsuarioDao extends Usuario {
                 usuarios.add(u);
             }
             res.close();
-            smt.close();
-            con.close();
+            query.close();
+            conn.close();
         } catch (SQLException error) {
             throw new RuntimeException(error);
         }
@@ -174,12 +171,12 @@ public class UsuarioDao extends Usuario {
     //SELECT POR ID
     public Usuario select(int id_usuario) {
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
+            conn = new ConnectionFactory().getConnection();
+            use = conn.prepareStatement("USE banpar");
             use.executeQuery();
-            PreparedStatement query = conn.prepareStatement("SELECT * FROM usuario WHERE id_usuario = ?");
+            query = conn.prepareStatement("SELECT * FROM usuario WHERE id_usuario = ?");
             query.setInt(1, id_usuario);
-            ResultSet res = query.executeQuery();
+            res = query.executeQuery();
             Usuario us = new Usuario();
             if (res.next()) {
                 us.setId(res.getInt("id_usuario"));
@@ -201,10 +198,10 @@ public class UsuarioDao extends Usuario {
     //DELETE POR ID
     public void delete(int id) {
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
+            conn = new ConnectionFactory().getConnection();
+            use = conn.prepareStatement("USE banpar");
             use.executeQuery();
-            PreparedStatement query = conn.prepareStatement("DELETE FROM usuario WHERE id_usuario = ?");
+            query = conn.prepareStatement("DELETE FROM usuario WHERE id_usuario = ?");
             query.setInt(1, id);
             query.execute();
             System.out.println("---------------------------------EXCLUIDO COM SUCESSO-------------------------------------\n");
