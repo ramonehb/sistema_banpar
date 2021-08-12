@@ -10,15 +10,22 @@ import java.util.List;
 
 public class CedenteDao extends Cedente {
 
+    private Connection conn;
+    private PreparedStatement use;
+    private PreparedStatement query;
+    private ResultSet res;
+    ;
+
     public List<Cedente> listar() {
         List<Cedente> cedentes = new ArrayList<>();
 
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
+            conn = Conexao.abreConexao();
+            assert conn != null;
+            use = conn.prepareStatement("USE banpar");
             use.executeQuery();
-            PreparedStatement query = conn.prepareStatement("SELECT * FROM cedente");
-            ResultSet res = query.executeQuery();
+            query = conn.prepareStatement("SELECT * FROM cedente");
+            res = query.executeQuery();
 
             while (res.next()) {
                 Cedente c = new Cedente();                c.setId_cedente(res.getInt("id_cedente"));
@@ -39,10 +46,10 @@ public class CedenteDao extends Cedente {
 
     public void cadastrar(String nome, String endereco, String email) {
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("Use banpar");
-            use.executeQuery();
-            PreparedStatement query = conn.prepareStatement("INSERT INTO cedente (nome_cedente, endereco, email_cedente) VALUES (?,?,?)");
+           conn = Conexao.abreConexao();
+            assert conn != null;
+            use = conn.prepareStatement("USE banpar");
+            query = conn.prepareStatement("INSERT INTO cedente (nome_cedente, endereco, email_cedente) VALUES (?,?,?)");
             query.setString(1, nome);
             query.setString(2, endereco);
             query.setString(3, email);
