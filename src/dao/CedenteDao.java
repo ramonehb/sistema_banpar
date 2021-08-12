@@ -14,7 +14,7 @@ public class CedenteDao extends Cedente {
     private PreparedStatement use;
     private PreparedStatement query;
     private ResultSet res;
-    ;
+    String u = "USE banpar";
 
     public List<Cedente> listar() {
         List<Cedente> cedentes = new ArrayList<>();
@@ -48,7 +48,7 @@ public class CedenteDao extends Cedente {
         try {
            conn = Conexao.abreConexao();
             assert conn != null;
-            use = conn.prepareStatement("USE banpar");
+            use = conn.prepareStatement(u);
             query = conn.prepareStatement("INSERT INTO cedente (nome_cedente, endereco, email_cedente) VALUES (?,?,?)");
             query.setString(1, nome);
             query.setString(2, endereco);
@@ -69,14 +69,13 @@ public class CedenteDao extends Cedente {
     }
 
     public Cedente selecionar(int id) {
-
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
-            use.executeQuery();
-            PreparedStatement query = conn.prepareStatement("SELECT * FROM cedente where id_cedente = ?");
+            conn = Conexao.abreConexao();
+            use = conn.prepareStatement(u);
+            query = conn.prepareStatement("SELECT * FROM cedente where id_cedente = ?");
             query.setInt(1, id);
-            ResultSet res = query.executeQuery();
+
+            res = query.executeQuery();
             Cedente c = new Cedente();
             if (res.next()) {
                 c.setId_cedente(res.getInt("id_cedente"));
