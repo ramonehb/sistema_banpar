@@ -71,6 +71,7 @@ public class CedenteDao extends Cedente {
     public Cedente selecionar(int id) {
         try {
             conn = Conexao.abreConexao();
+            assert conn != null;
             use = conn.prepareStatement(u);
             query = conn.prepareStatement("SELECT * FROM cedente where id_cedente = ?");
             query.setInt(1, id);
