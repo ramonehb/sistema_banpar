@@ -12,7 +12,7 @@ public class ConnectionFactory {
 
     public static Connection getConnection() {
         try {
-            return DriverManager.getConnection(connectionString,user,pass);
+            return DriverManager.getConnection(connectionString, user, pass);
         } catch (SQLException error) {
             throw new RuntimeException(error);
         }

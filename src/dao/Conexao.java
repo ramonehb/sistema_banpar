@@ -9,13 +9,13 @@ public class Conexao {
     private static String user = "root";
     private static String pass = "1234";
 
-    public static Connection abreConexao(){
-        try{
-            return DriverManager.getConnection(connectionString,user,pass);
-        }catch (SQLException erro){
+    public static Connection abreConexao() {
+        try {
+            return DriverManager.getConnection(connectionString, user, pass);
+        } catch (SQLException erro) {
             System.out.println("SQLException");
             System.out.println(erro.getMessage());
-        }catch (Exception erro){
+        } catch (Exception erro) {
             System.out.println("Exception");
             System.out.println(erro.getMessage());
         }

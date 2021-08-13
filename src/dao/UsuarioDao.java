@@ -56,7 +56,7 @@ public class UsuarioDao extends Usuario {
             use.executeQuery();
             String selectAll = "SELECT * FROM usuario WHERE usuario='" + usuario + "' AND senha='" + senha + "'";
             query = conn.prepareStatement(selectAll);
-             res = query.executeQuery();
+            res = query.executeQuery();
 
             if (res.next()) {
                 autenticacao = true;

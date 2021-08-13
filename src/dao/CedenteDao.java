@@ -15,6 +15,7 @@ public class CedenteDao extends Cedente {
     private PreparedStatement query;
     private ResultSet res;
     String u = "USE banpar";
+
     //Função listar todos cedente do banco
     public List<Cedente> listar() {
         List<Cedente> cedentes = new ArrayList<>();
@@ -28,7 +29,8 @@ public class CedenteDao extends Cedente {
             res = query.executeQuery();
 
             while (res.next()) {
-                Cedente c = new Cedente();                c.setId_cedente(res.getInt("id_cedente"));
+                Cedente c = new Cedente();
+                c.setId_cedente(res.getInt("id_cedente"));
                 c.setNome_cedente(res.getString("nome_cedente"));
                 c.setEndereco(res.getString("endereco"));
                 c.setEmail_cedente(res.getString("email_cedente"));
@@ -43,10 +45,11 @@ public class CedenteDao extends Cedente {
         }
         return cedentes;
     }
+
     //Metodo para cadastrar cedente no banco
     public void cadastrar(String nome, String endereco, String email) {
         try {
-           conn = Conexao.abreConexao();
+            conn = Conexao.abreConexao();
             assert conn != null;
             use = conn.prepareStatement(u);
             query = conn.prepareStatement("INSERT INTO cedente (nome_cedente, endereco, email_cedente) VALUES (?,?,?)");
@@ -67,6 +70,7 @@ public class CedenteDao extends Cedente {
             throw new RuntimeException(erro);
         }
     }
+
     //Funcao para selecionar apenas um usuário
     public Cedente selecionar(int id) {
         try {
@@ -89,10 +93,11 @@ public class CedenteDao extends Cedente {
             throw new RuntimeException(erro);
         }
     }
+
     //Metodo para atualizar um cedente especifico, selecionando por ID
     public void atualizar(int id, String nome, String endereco, String email) {
         try {
-             conn = Conexao.abreConexao();
+            conn = Conexao.abreConexao();
             assert conn != null;
             use = conn.prepareStatement(u);
             use.executeQuery();
@@ -114,6 +119,7 @@ public class CedenteDao extends Cedente {
             throw new RuntimeException(erro);
         }
     }
+
     //Metodo para deletar cedente por ID
     public void deletar(int id) {
         try {
