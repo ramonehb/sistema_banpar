@@ -9,20 +9,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CedenteDao extends Cedente {
-
+    //Atributos da classe
     private Connection conn;
     private PreparedStatement use;
     private PreparedStatement query;
     private ResultSet res;
     String u = "USE banpar";
-
+    //Função listar todos cedente do banco
     public List<Cedente> listar() {
         List<Cedente> cedentes = new ArrayList<>();
 
         try {
             conn = Conexao.abreConexao();
             assert conn != null;
-            use = conn.prepareStatement("USE banpar");
+            use = conn.prepareStatement(u);
             use.executeQuery();
             query = conn.prepareStatement("SELECT * FROM cedente");
             res = query.executeQuery();
@@ -43,7 +43,7 @@ public class CedenteDao extends Cedente {
         }
         return cedentes;
     }
-
+    //Metodo para cadastrar cedente no banco
     public void cadastrar(String nome, String endereco, String email) {
         try {
            conn = Conexao.abreConexao();
@@ -67,7 +67,7 @@ public class CedenteDao extends Cedente {
             throw new RuntimeException(erro);
         }
     }
-
+    //Funcao para selecionar apenas um usuário
     public Cedente selecionar(int id) {
         try {
             conn = Conexao.abreConexao();
@@ -89,13 +89,14 @@ public class CedenteDao extends Cedente {
             throw new RuntimeException(erro);
         }
     }
-
+    //Metodo para atualizar um cedente especifico, selecionando por ID
     public void atualizar(int id, String nome, String endereco, String email) {
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
+             conn = Conexao.abreConexao();
+            assert conn != null;
+            use = conn.prepareStatement(u);
             use.executeQuery();
-            PreparedStatement query = conn.prepareStatement("UPDATE cedente SET nome_cedente = ? ,endereco = ?, email_cedente = ? WHERE id_cedente = ?");
+            query = conn.prepareStatement("UPDATE cedente SET nome_cedente = ? ,endereco = ?, email_cedente = ? WHERE id_cedente = ?");
             query.setString(1, nome);
             query.setString(2, endereco);
             query.setString(3, email);
@@ -113,13 +114,13 @@ public class CedenteDao extends Cedente {
             throw new RuntimeException(erro);
         }
     }
-
+    //Metodo para deletar cedente por ID
     public void deletar(int id) {
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
+            conn = Conexao.abreConexao();
+            use = conn.prepareStatement(u);
             use.executeQuery();
-            PreparedStatement query = conn.prepareStatement("DELETE FROM cedente WHERE id_cedente = ?");
+            query = conn.prepareStatement("DELETE FROM cedente WHERE id_cedente = ?");
             query.setInt(1, id);
             boolean resultadoQuery = query.execute();
             if (!resultadoQuery) {
