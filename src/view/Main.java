@@ -12,30 +12,34 @@ public class Main {
         UsuarioDao usuarioDao = new UsuarioDao();
         Scanner read = new Scanner(System.in);
         String usuario, senha;
-
+        //Login do usuário
         System.out.println("Banpar Fomento Comercial e Serviços");
         System.out.print("Entra com seus dados de acesso\n");
         System.out.print("Login: ");
         usuario = read.nextLine();
         System.out.print("Senha: ");
         senha = read.nextLine();
-
+        //Se a funcao verificarAcesso retornar TRUE entra no if
         if (usuarioDao.verificarAcesso(usuario, senha)) {
             int opc;
             int sair = 1;
 
             System.out.println("Bem vindo " + usuario);
 
+            //Repetição até o usuario selecionar a opção 10 Sair do sistema
             while (sair < 10) {
+                //Menu com o sistema aberto
                 System.out.print("\n1.Operações \n2.Acesso aos usuários \n3.Cedentes \n10.Sair do Sistema\nDigite a opção selecionada: ");
                 int opcEntrada = read.nextInt();
 
                 switch (opcEntrada) {
                     case 1 -> {
+                        //Tela das operação front
                         System.out.print("\n1.Consultar todas as operações n\2.Cadastrar operação \n3.Selecionar operação por ID" +
                                 "\n4.Excluir Operação \n5.Selecionar operação por numero \n6.Atualizar Operação \n10.Sair do sistema \nDigite a opção selecionada: ");
                     }
                     case 2 -> {
+                        //Tela do usuário front
                         System.out.print("\n1.Consultar todos usuários \n2.Cadastrar usuário \n3.Selecionar usuário por ID " +
                                 "\n4.Excluir usuário \n5.Selecionar usuário por NOME \n6.Atualizar usuário \n10.Sair do sistema\nDigite a opção selecionada: ");
                         opc = read.nextInt();
@@ -59,7 +63,7 @@ public class Main {
                                 nascimentoUs = read.nextLine();
                                 System.out.print("Nivel de acesso\n1.Administrador \n2.Usuário \nDigite a opção desejada: ");
                                 acessoUs = read.nextInt();
-                                //Verificar os dados antes do cadastro
+                                //Verificar os dados antes do cadastro front
                                 usuarioDao.cadastrar(usuarioUs, senhaUs, emailUs, nascimentoUs, acessoUs);
                             }
                             case 3 -> {
@@ -146,9 +150,11 @@ public class Main {
                         }
                     }
                     case 3 -> {
+                        //Tela do cedentes front
                         System.out.println("Cedentes");
                     }
                     case 10 -> {
+                        //Saindo do sistema;
                         sair = 10;
                         System.out.println("Volte sempre " + usuario + " :)");
                     }
