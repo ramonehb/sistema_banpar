@@ -1,7 +1,6 @@
 package dao;
 
-import model.Cedente;
-import model.Operacao;
+
 import model.OperacaoInner;
 
 import java.awt.geom.RectangularShape;
@@ -12,14 +11,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OperacaoDao {
+    //Atributos da classe OperacaoDao
+    private Connection conn;
+    private PreparedStatement query;
+    private PreparedStatement use;
+    private String u = "USE banpar";
+    private ResultSet res;
+
     //LISTANDO TODAS AS LINHAS DA TABELA OPERACAO COM INNER PARA MOSTRAR OS NOMES E USUARIO DE CADA OPERACAO
     public List<OperacaoInner> listar() {
         List<OperacaoInner> operacoes = new ArrayList<>();
         try {
-            Connection conn = new ConnectionFactory().getConnection();
-            PreparedStatement use = conn.prepareStatement("USE banpar");
+            conn = Conexao.abreConexao();
+            assert conn != null;
+            use = conn.prepareStatement(u);
             use.executeQuery();
-            PreparedStatement query = conn.prepareStatement
+            query = conn.prepareStatement
                     ("SELECT " +
                             "id_operacao \n" +
                             ",cedente.nome_cedente \n" +
@@ -32,7 +39,7 @@ public class OperacaoDao {
                             "inner join usuario\n" +
                             "on operacao.id_usuario = usuario.id_usuario"
                     );
-            ResultSet res = query.executeQuery();
+            res = query.executeQuery();
 
             while (res.next()) {
                 OperacaoInner o = new OperacaoInner();
